@@ -39,10 +39,10 @@ To use the script, follow these steps:
 3. Run the script with the following command:
 
    ```
-   node script.js path/to/your/dicom/file.dcm [targetKey]
+   node index.js path/to/your/dicom/file.dcm [targetKey]
    ```
 
-   Replace `script.js` with the name of the script file if you've renamed it. Replace `path/to/your/dicom/file.dcm` with the actual path to your DICOM file. You can also provide an optional `targetKey` parameter to specify the key you want to search for (default is "QURE_CODE_12").
+   Replace `index.js` with the name of the script file if you've renamed it. Replace `path/to/your/dicom/file.dcm` with the actual path to your DICOM file. You can also provide an optional `targetKey` parameter to specify the key you want to search for (default is "QURE_CODE_12").
 
 4. The script will output the extracted impression text if the specified key is found, or a message indicating that the key was not found.
 
@@ -51,7 +51,7 @@ To use the script, follow these steps:
 Here's an example of how you can use the script:
 
 ```
-node script.js mydicomfile.dcm QURE_CODE_12
+node index.js mydicomfile.dcm QURE_CODE_12
 ```
 
 ## Troubleshooting

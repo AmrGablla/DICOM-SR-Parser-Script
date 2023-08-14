@@ -1,0 +1,25 @@
+{
+  "name": "dicom-sr-parser",
+  "version": "1.0.0",
+  "description": "DICOM SR parser",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmrGablla/DICOM-SR-Parser-Script.git"
+  },
+  "keywords": [
+    "DICOM"
+  ],
+  "author": "Amr GabAllah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AmrGablla/DICOM-SR-Parser-Script/issues"
+  },
+  "homepage": "https://github.com/AmrGablla/DICOM-SR-Parser-Script#readme",
+  "dependencies": {
+    "dicom-parser": "^1.8.21"
+  }
+}
