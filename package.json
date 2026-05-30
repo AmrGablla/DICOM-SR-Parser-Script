@@ -1,17 +1,62 @@
 {
   "name": "dicom-sr-parser",
-  "version": "1.0.0",
-  "description": "DICOM SR parser",
+  "version": "3.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "description": "Extract TEXT from DICOM Structured Reports by Concept Name Code Value",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/esm.mjs",
+      "require": "./src/index.js"
+    },
+    "./dcmjs": {
+      "types": "./adapters/dcmjs.d.ts",
+      "import": "./adapters/dcmjs.mjs",
+      "require": "./adapters/dcmjs.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.mjs",
+      "default": "./dist/browser.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib",
+    "adapters",
+    "bin",
+    "dist",
+    "templates",
+    "docs"
+  ],
+  "bin": {
+    "dicom-sr-parser": "bin/cli.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node scripts/build.mjs",
+    "test": "node test/parse.test.js && node test/integration.test.js && node test/naturalized.test.js && node test/esm.test.mjs",
+    "test:types": "npx -p typescript tsc --noEmit -p tsconfig.types.json",
+    "prepublishOnly": "npm run build && npm test && npm run test:types"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AmrGablla/DICOM-SR-Parser-Script.git"
   },
   "keywords": [
-    "DICOM"
+    "DICOM",
+    "structured-report",
+    "SR",
+    "dicom-sr",
+    "medical-imaging",
+    "radiology",
+    "impression",
+    "findings",
+    "dcmjs"
   ],
   "author": "Amr GabAllah",
   "license": "MIT",
@@ -21,5 +66,16 @@
   "homepage": "https://github.com/AmrGablla/DICOM-SR-Parser-Script#readme",
   "dependencies": {
     "dicom-parser": "^1.8.21"
+  },
+  "peerDependencies": {
+    "dcmjs": ">=0.29.0"
+  },
+  "peerDependenciesMeta": {
+    "dcmjs": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
   }
 }

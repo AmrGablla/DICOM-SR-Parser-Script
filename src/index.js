@@ -1,45 +1,24 @@
-var dicomParser = require("dicom-parser");
+var fs = require("fs");
+var core = require("./core");
 
-function findImpressionText(data, targetKey) {
-  if (typeof data === "object") {
-    if (data.hasOwnProperty("x0040a730")) {
-      const report = data["x0040a730"];
-      for (const data of report) {
-        if (data.hasOwnProperty("x0040a043")) {
-          const codes = data["x0040a043"];
-          for (const code of codes) {
-            if (
-              code.hasOwnProperty("x00080100") &&
-              code["x00080100"] === targetKey
-            ) {
-              if (data.hasOwnProperty("x0040a160")) {
-                return data["x0040a160"];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return null;
+/**
+ * Read a DICOM SR file from disk and parse it (same return shape as parse()).
+ */
+function parseFromFile(filePath, codeValue, options) {
+  var buffer = fs.readFileSync(filePath);
+  return core.parse(buffer, codeValue, options);
 }
 
-function parse(dicomFileAsBuffer, targetKey) {
-
-  try {
-    var dataSet = dicomParser.parseDicom(dicomFileAsBuffer);
-    const json = dicomParser.explicitDataSetToJS(dataSet);
-    const impressionText = findImpressionText(json, targetKey);
-
-    if (impressionText !== null) {
-      console.log(impressionText);
-    } else {
-      console.log(`key "${targetKey}" not found.`);
-    }
-  } catch (ex) {
-    console.log(ex);
-  }
-}
-
-
-module.exports = { parse }
+module.exports = {
+  parse: core.parse,
+  parseAll: core.parseAll,
+  parseFromFile: parseFromFile,
+  findTextByCodeValue: core.findTextByCodeValue,
+  findAllByCodeValue: core.findAllByCodeValue,
+  findTextByCodeMeaning: core.findTextByCodeMeaning,
+  matchesConceptCode: core.matchesConceptCode,
+  extractTextFromContentItem: core.extractTextFromContentItem,
+  dataSetToContentTree: core.dataSetToContentTree,
+  TAG: core.TAG,
+  DEFAULT_MAX_ELEMENT_LENGTH: core.DEFAULT_MAX_ELEMENT_LENGTH,
+};

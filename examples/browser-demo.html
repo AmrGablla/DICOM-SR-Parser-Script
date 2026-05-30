@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>dicom-sr-parser browser demo</title>
+  </head>
+  <body>
+    <h1>SR text by Code Value</h1>
+    <p>
+      <label>Code Value <input id="code" value="TEST_CODE_01" /></label>
+      <input type="file" id="file" accept=".dcm,application/dicom" />
+    </p>
+    <pre id="out">Select a .dcm file…</pre>
+    <script type="module">
+      import { parse } from "../dist/browser.mjs";
+
+      const fileInput = document.getElementById("file");
+      const codeInput = document.getElementById("code");
+      const out = document.getElementById("out");
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const buf = new Uint8Array(await file.arrayBuffer());
+        try {
+          const result = parse(buf, codeInput.value.trim());
+          out.textContent = JSON.stringify(result, null, 2);
+        } catch (e) {
+          out.textContent = String(e);
+        }
+      });
+    </script>
+  </body>
+</html>
